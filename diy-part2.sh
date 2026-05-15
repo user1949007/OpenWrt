@@ -6,17 +6,12 @@
 sed -i 's/192.168.1.1/10.10.9.1/g' package/base-files/files/bin/config_generate
 
 ########################################
-# 2. 修改主机名
-########################################
-sed -i "s/'OpenWrt'/'P3TERX-Router'/g" package/base-files/files/bin/config_generate
-
-########################################
-# 3. 设置默认主题为 Argon
+# 2. 设置默认主题为 Argon
 ########################################
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 ########################################
-# 4. 创建 uci-defaults（强烈推荐）
+# 3. 创建 uci-defaults（强烈推荐）
 ########################################
 mkdir -p package/base-files/files/etc/uci-defaults
 
@@ -55,7 +50,7 @@ EOF
 chmod +x package/base-files/files/etc/uci-defaults/99_default_config
 
 ########################################
-# 5. 确保 USB WiFi 相关包已选中（保险）
+# 4. 确保 USB WiFi 相关包已选中（保险）
 ########################################
 cat << EOF >> .config
 CONFIG_PACKAGE_kmod-usb-core=y

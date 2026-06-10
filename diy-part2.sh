@@ -97,3 +97,19 @@ CONFIG_PACKAGE_iwinfo=y
 CONFIG_PACKAGE_wpa-cli=y
 CONFIG_PACKAGE_hostapd-common=y
 EOF
+
+# 5. 解决致命的 DNS 冲突 (OpenClash/Passwall 必做)
+# 移除官方默认的 dnsmasq，强制使用 dnsmasq-full
+sed -i 's/CONFIG_PACKAGE_dnsmasq=y/CONFIG_PACKAGE_dnsmasq=n/' .config
+sed -i 's/CONFIG_PACKAGE_dnsmasq_full=y/CONFIG_PACKAGE_dnsmasq_full=n/' .config
+echo 'CONFIG_PACKAGE_dnsmasq_full=y' >> .config
+echo 'CONFIG_PACKAGE_dnsmasq=n' >> .config
+
+# ==========================================
+# 6. 升级 Golang 环境 (解决 Passwall/OpenClash 编译失败)
+# 告诉编译脚本使用较新的 Golang (1.21+)，避免组件编译报错
+cat >> feeds/packages/lang/go/go.mk << EOF
+GO_VERSION_MAJOR_MINOR:=1.21
+GO_VERSION_PATCH:=0
+GO_VERSION:=1.21.0
+EOF
